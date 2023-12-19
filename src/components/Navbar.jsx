@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { signInWithPopup, GoogleAuthProvider, getAuth } from "firebase/auth";
 import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const navigate = useNavigate();
@@ -13,7 +15,17 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    // console.log(result.user);
+    // console.log("user detail ",result.user.displayName);
+    toast.success(`Welcome ${result.user.displayName}`, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
 
     setIsAuthenticated(true);
     // Check for user
@@ -36,11 +48,34 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated }) => {
   const signOut = () => {
     auth.signOut();
     setIsAuthenticated(false);
+    toast.success("Logout Successfully..!", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
     navigate("/");
+
   };
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <div className="nav_bar sticky-top">
         <Link to={"/"} className="left_user">
           {isAuthenticated ? (

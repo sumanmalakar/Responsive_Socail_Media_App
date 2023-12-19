@@ -11,6 +11,8 @@ import { auth, db } from "../firebase.config";
 import ShowComments from "./ShowComments";
 import { getAuth } from "firebase/auth";
 import Loader from "./Loader";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CommentSection = ({ postId, setcommnetLength }) => {
   const auth = getAuth();
@@ -45,8 +47,8 @@ const CommentSection = ({ postId, setcommnetLength }) => {
   }, [postId]);
 
   const handleAddComment = async (e) => {
+    e.preventDefault();
     if (auth.currentUser) {
-      e.preventDefault();
       try {
         await addDoc(collection(db, "comments"), {
           postId,
@@ -56,6 +58,17 @@ const CommentSection = ({ postId, setcommnetLength }) => {
           timestamp: new Date(),
         });
 
+         toast.success("Comment Added Successfully!", {
+           position: "top-right",
+           autoClose: 2000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "dark",
+         });
+
        
 
         setNewComment("");
@@ -63,14 +76,35 @@ const CommentSection = ({ postId, setcommnetLength }) => {
         console.error("Error adding comment:", error.message);
       }
     } else {
-      alert("Login First");
+      toast.warn("Login First", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
   // console.log("comments ", comments);
   // console.log(postId);
  
   return (
-    <div>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <form onSubmit={handleAddComment} className="form">
         <input
           value={newComment}
@@ -82,16 +116,16 @@ const CommentSection = ({ postId, setcommnetLength }) => {
         <button className="btn btn-primary">Add Comment</button>
       </form>
       <h3 className="my-3"> Total Comments :- {size}</h3>
-      {loading?(
+      {loading ? (
         <Loader />
-      ):(<>
-
-      {filteredComments.map((comment) => (
-        <ShowComments key={comment.id} comment={comment} />
-        ))}
+      ) : (
+        <>
+          {filteredComments.map((comment) => (
+            <ShowComments key={comment.id} comment={comment} />
+          ))}
         </>
       )}
-    </div>
+    </>
   );
 };
 

@@ -7,6 +7,8 @@ import { AiFillLike } from "react-icons/ai";
 import CommentSection from "./CommentSection";
 import { getAuth } from "firebase/auth";
 import ConvetDateTime from "./ConvetDateTime";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Post_Details = () => {
   const { id } = useParams();
@@ -27,6 +29,19 @@ console.log(data)
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+
       <div className="container my-3 text-center">
         <div className="my-5 detail_page">
           <img src={data.imageUrl} style={{ borderRadius: "5%" }} />

@@ -30,6 +30,7 @@ const Profile = () => {
 
   return (
     <>
+    
       <div className="container my-5 text-center">
         <img
           style={{
