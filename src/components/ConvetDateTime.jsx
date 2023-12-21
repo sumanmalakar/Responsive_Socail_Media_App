@@ -1,15 +1,10 @@
-import React from 'react'
+import React from "react";
 
 const ConvetDateTime = ({ seconds, nanoseconds, text }) => {
   // Assuming you have a Firebase timestamp with seconds and nanoseconds
-  const firebaseTimestamp = {
-    seconds,
-    nanoseconds,
-  };
 
   // Convert the Firebase timestamp to milliseconds
-  const timestampInMilliseconds =
-    firebaseTimestamp.seconds * 1000 + firebaseTimestamp.nanoseconds / 1e6;
+  const timestampInMilliseconds = seconds * 1000 + nanoseconds / 1e6;
 
   // Create a Date object using the timestamp
   const date = new Date(timestampInMilliseconds);
@@ -30,7 +25,11 @@ const ConvetDateTime = ({ seconds, nanoseconds, text }) => {
   });
 
   // console.log("Indian Date and Time:", formattedDate);
-  return <h6>{text}{" "}{formattedDate}</h6>;
+  return (
+    <h6>
+      {text} {formattedDate}
+    </h6>
+  );
 };
 
-export default ConvetDateTime
+export default ConvetDateTime;

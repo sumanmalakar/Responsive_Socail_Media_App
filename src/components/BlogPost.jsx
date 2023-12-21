@@ -69,8 +69,8 @@ const BlogPost = ({ p }) => {
                 <p className="card-text">{p.description}</p>
                 <p className="card-text">
                   <ConvetDateTime
-                    seconds={p.time.seconds}
-                    nanoseconds={p.time.nanoseconds}
+                    seconds={p.time?.seconds}
+                    nanoseconds={p.time?.nanoseconds}
                   />
                 </p>
               </div>
